@@ -12,6 +12,6 @@ ctx logger info "Installing gunicorn"
 pip install gunicorn==18.0
 ctx logger info "Installing pyyaml"
 pip install pyyaml==3.10
-ctx logger info "Installing cloudify-host-pool-service"
+ctx logger info "Installing cloud-config-service"
 pip install ${SOURCE}
 

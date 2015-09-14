@@ -10,11 +10,11 @@ function get_response_code() {
     wget_cmd=$(which wget)
 
     if [[ ! -z ${curl_cmd} ]]; then
-        response_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${port}/hosts)
+        response_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${port}/clouds)
     elif [[ ! -z ${wget_cmd} ]]; then
-        response_code=$(wget --spider -S "http://localhost:${port}/hosts" 2>&1 | grep "HTTP/" | awk '{print $2}' | tail -1)
+        response_code=$(wget --spider -S "http://localhost:${port}/clouds" 2>&1 | grep "HTTP/" | awk '{print $2}' | tail -1)
     else
-        ctx logger error "Failed to retrieve response code from http://localhost:${port}/hosts --> Neither 'cURL' nor 'wget' were found
+        ctx logger error "Failed to retrieve response code from http://localhost:${port}/clouds --> Neither 'cURL' nor 'wget' were found
          on the system"
         exit 1;
     fi
