@@ -14,5 +14,5 @@ ctx logger info "Installing pyyaml"
 pip install pyyaml==3.10
 ctx logger info "Installing cloud-config-service"
 echo ${SOURCE}
-pip install --upgrade ${SOURCE}
+pip install --force-reinstall ${SOURCE}
 
