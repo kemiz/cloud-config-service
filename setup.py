@@ -28,6 +28,8 @@ setup(
         'flask',
         'flask_restful',
         'PyYAML',
-        'filelock==0.2.0', 'testtools'
+        'filelock==0.2.0',
+        'testtools',
+        'cloudify=3.2.1'
     ]
 )
