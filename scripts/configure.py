@@ -5,7 +5,7 @@ import json
 from cloudify import ctx
 
 
-pool = ctx.node.properties['pool']
+cloud_config = ctx.node.properties['cloud_config']
 work_directory = ctx.node.properties['working_directory']
 config_path = os.path.join(work_directory, 'config.json')
 
@@ -26,9 +26,9 @@ def _get_keys():
 
 
 def download_pool_config():
-    _pool_config = os.path.join(work_directory, os.path.basename(pool))
+    _pool_config = os.path.join(work_directory, os.path.basename(cloud_config))
     ctx.logger.info('Downloading pool configuration file')
-    ctx.download_resource(pool, target_path=_pool_config)
+    ctx.download_resource(cloud_config, target_path=_pool_config)
     return _pool_config
 
 

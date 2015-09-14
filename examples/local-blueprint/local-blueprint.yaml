@@ -1,8 +1,8 @@
 tosca_definitions_version: cloudify_dsl_1_0
 
 imports:
-  - http://www.getcloudify.org/spec/cloudify/3.2rc1/types.yaml
-  - https://raw.githubusercontent.com/cloudify-cosmo/cloudify-host-pool-service/master/host-pool-service.yaml
+  - http://www.getcloudify.org/spec/cloudify/3.2/types.yaml
+  - https://raw.githubusercontent.com/kemiz/cloud-config-service/master/cloud-config-service-types.yaml
 
 
 inputs:
