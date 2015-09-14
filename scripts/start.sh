@@ -60,7 +60,7 @@ port=$(ctx node properties port)
 
 cd ${work_directory}
 export CLOUD_CONFIG_SERVICE_CONFIG_PATH=${config_path}
-command="gunicorn --workers=5 --pid=${work_directory}/gunicorn.pid --log-level=INFO --log-file=${work_directory}/gunicorn.log --bind 0.0.0.0:${port} --daemon cloud_config_service.rest.service:app"
+command="gunicorn --workers=1 --pid=${work_directory}/gunicorn.pid --log-level=INFO --log-file=${work_directory}/gunicorn.log --bind 0.0.0.0:${port} --daemon cloud_config_service.rest.service:app"
 ctx logger info "Starting cloudify-cloud-config-service with command: ${command}"
 ${command}
 

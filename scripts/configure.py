@@ -16,4 +16,6 @@ def download_cloud_config():
     return _cloud_config
 
 
-ctx.instance.runtime_properties['config_path'] = download_cloud_config()
+cloud_config_path = download_cloud_config()
+print cloud_config_path
+ctx.instance.runtime_properties['config_path'] = cloud_config_path
