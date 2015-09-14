@@ -25,11 +25,11 @@ node_types:
           inputs:
             script_path:
               default: https://raw.githubusercontent.com/kemiz/cloud-config-service/master/scripts/create.sh
-        configure:
-          implementation: script.script_runner.tasks.run
-          inputs:
-            script_path:
-              default: https://raw.githubusercontent.com/kemiz/cloud-config-service/master/scripts/configure.py
+#        configure:
+#          implementation: script.script_runner.tasks.run
+#          inputs:
+#            script_path:
+#              default: https://raw.githubusercontent.com/kemiz/cloud-config-service/master/scripts/configure.py
         start:
           implementation: script.script_runner.tasks.run
           inputs:

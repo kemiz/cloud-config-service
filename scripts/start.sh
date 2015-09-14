@@ -38,7 +38,7 @@ function wait_for_server() {
     for i in $(seq 1 5)
     do
         response_code=$(get_response_code ${port})
-        ctx logger info "[GET] http://localhost:${port}/hosts ${response_code}"
+        ctx logger info "[GET] http://localhost:${port}/clouds ${response_code}"
         if [ ${response_code} -eq 200 ] ; then
             started=true
             break
