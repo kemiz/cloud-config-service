@@ -17,7 +17,7 @@ inputs:
     description: |
       absolute path to a directory where the service will be
       running from
-    default: /tmp
+    default: "."
 
 node_templates:
 

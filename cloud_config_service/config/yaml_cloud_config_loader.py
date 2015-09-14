@@ -4,6 +4,7 @@ from cloud_config_service import exceptions
 
 
 def load(cloud_config):
+    print(cloud_config)
     if isinstance(cloud_config, dict):
         return cloud_config
     else:
