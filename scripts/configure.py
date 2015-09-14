@@ -16,15 +16,4 @@ def download_cloud_config():
     return _cloud_config
 
 
-def write_cloud_config_file():
-    config_json = {
-        'clouds': cloud_config_path
-    }
-    ctx.logger.info('Creating service configuration file')
-    with open(config_path, 'w') as f:
-        json.dump(config_json, f, indent=2)
-
-cloud_config_path = download_cloud_config()
-write_cloud_config_file()
-
-ctx.instance.runtime_properties['config_path'] = config_path
+ctx.instance.runtime_properties['config_path'] = download_cloud_config()
