@@ -1,0 +1,47 @@
+node_types:
+
+  cloudify.nodes.CloudConfigService:
+    derived_from: cloudify.nodes.SoftwareComponent
+    properties:
+      cloud_config:
+        type: string
+        description: Path to the pool YAML configuration file
+      working_directory:
+        type: string
+        default: /tmp/cloud-config-service
+        description: Directory to run the service from
+      port:
+        type: integer
+        description: Port to bind to
+        default: 8180
+      source:
+        type: string
+        description: URL to the source code of the service
+        default: https://github.com/kemiz/cloud-config-service/archive/master.zip
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/cloud-config-service/master/scripts/create.sh
+        configure:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/cloud-config-service/master/scripts/configure.py
+        start:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/cloud-config-service/master/scripts/start.sh
+        stop:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/kemiz/cloud-config-service/master/scripts/stop.sh
+        delete:
+          implementation: script.script_runner.tasks.run
+          inputs:
+            script_path:
+              default: https://raw.githubusercontent.com/cloudify-cosmo/cloudify-host-pool-service/master/scripts/delete.sh
