@@ -1,12 +1,10 @@
 import os
-import json
 
 from cloudify import ctx
 
 
 cloud_config = ctx.node.properties['cloud_config']
 work_directory = ctx.node.properties['working_directory']
-config_path = os.path.join(work_directory, 'config.json')
 
 
 def download_cloud_config():
