@@ -11,7 +11,7 @@ config_path = os.path.join(work_directory, 'config.json')
 
 def download_cloud_config():
     _cloud_config = os.path.join(work_directory, os.path.basename(cloud_config))
-    ctx.logger.info('Downloading pool configuration file')
+    ctx.logger.info('Downloading cloud configuration file')
     ctx.download_resource(cloud_config, target_path=_cloud_config)
     return _cloud_config
 

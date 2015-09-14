@@ -13,5 +13,6 @@ pip install gunicorn==18.0
 ctx logger info "Installing pyyaml"
 pip install pyyaml==3.10
 ctx logger info "Installing cloud-config-service"
+echo ${SOURCE}
 pip install ${SOURCE}
 
