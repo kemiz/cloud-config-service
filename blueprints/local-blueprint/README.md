@@ -18,36 +18,35 @@ Lets run the `install` workflow: <br>
 
 ```bash
 cfy local execute -w install
-2015-09-14 18:33:29 CFY <local> Starting 'install' workflow execution
-2015-09-14 18:33:29 CFY <local> [host_b625d] Creating node
-2015-09-14 18:33:29 CFY <local> [host_b625d] Configuring node
-2015-09-14 18:33:30 CFY <local> [host_b625d] Starting node
-2015-09-14 18:33:30 CFY <local> [host_pool_service_b0be1] Creating node
-2015-09-14 18:33:30 CFY <local> [host_pool_service_b0be1.create] Sending task 'script_runner.tasks.run'
-2015-09-14 18:33:31 CFY <local> [host_pool_service_b0be1.create] Task started 'script_runner.tasks.run'
-2015-09-14 18:33:32 LOG <local> [host_pool_service_b0be1.create] INFO: Executing: /tmp/tmp3uIwjl-create.sh
-2015-09-14 18:33:32 LOG <local> [host_pool_service_b0be1.create] INFO: Creating directory /tmp/cloud_config_service
-2015-09-14 18:33:32 LOG <local> [host_pool_service_b0be1.create] INFO: Installing gunicorn
-2015-09-14 18:33:33 LOG <local> [host_pool_service_b0be1.create] INFO: Installing pyyaml
-2015-09-14 18:33:33 LOG <local> [host_pool_service_b0be1.create] INFO: Installing cloud-config-service
-2015-09-14 18:33:36 LOG <local> [host_pool_service_b0be1.create] INFO: Execution done (return_code=0): /tmp/tmp3uIwjl-create.sh
-2015-09-14 18:33:36 CFY <local> [host_pool_service_b0be1.create] Task succeeded 'script_runner.tasks.run'
-2015-09-14 18:33:36 CFY <local> [host_pool_service_b0be1] Configuring node
-2015-09-14 18:33:36 CFY <local> [host_pool_service_b0be1.configure] Sending task 'script_runner.tasks.run'
-2015-09-14 18:33:36 CFY <local> [host_pool_service_b0be1.configure] Task started 'script_runner.tasks.run'
-2015-09-14 18:33:36 LOG <local> [host_pool_service_b0be1.configure] INFO: Downloading cloud configuration file
-/tmp/cloud_config_service/test_cloud_config.yaml
-2015-09-14 18:33:36 CFY <local> [host_pool_service_b0be1.configure] Task succeeded 'script_runner.tasks.run'
-2015-09-14 18:33:37 CFY <local> [host_pool_service_b0be1] Starting node
-2015-09-14 18:33:37 CFY <local> [host_pool_service_b0be1.start] Sending task 'script_runner.tasks.run'
-2015-09-14 18:33:37 CFY <local> [host_pool_service_b0be1.start] Task started 'script_runner.tasks.run'
-2015-09-14 18:33:37 LOG <local> [host_pool_service_b0be1.start] INFO: Executing: /tmp/tmpc7wXU0-start.sh
-2015-09-14 18:33:38 LOG <local> [host_pool_service_b0be1.start] INFO: Starting cloudify-cloud-config-service with command: gunicorn --workers=5 --pid=/tmp/cloud_config_service/gunicorn.pid --log-level=INFO --log-file=/tmp/cloud_config_service/gunicorn.log --bind 0.0.0.0:8180 --daemon cloud_config_service.rest.service:app
-2015-09-14 18:33:38 LOG <local> [host_pool_service_b0be1.start] INFO: Running Cloud-Config-Service liveness detection on port 8180
-2015-09-14 18:33:38 LOG <local> [host_pool_service_b0be1.start] INFO: [GET] http://localhost:8180/clouds 200
-2015-09-14 18:33:39 LOG <local> [host_pool_service_b0be1.start] INFO: Execution done (return_code=0): /tmp/tmpc7wXU0-start.sh
-2015-09-14 18:33:39 CFY <local> [host_pool_service_b0be1.start] Task succeeded 'script_runner.tasks.run'
-2015-09-14 18:33:39 CFY <local> 'install' workflow execution succeeded
+2015-09-15 13:09:02 CFY <local> Starting 'install' workflow execution
+2015-09-15 13:09:02 CFY <local> [host_7654a] Creating node
+2015-09-15 13:09:02 CFY <local> [host_7654a] Configuring node
+2015-09-15 13:09:03 CFY <local> [host_7654a] Starting node
+2015-09-15 13:09:03 CFY <local> [cloud_config_service_ec270] Creating node
+2015-09-15 13:09:03 CFY <local> [cloud_config_service_ec270.create] Sending task 'script_runner.tasks.run'
+2015-09-15 13:09:03 CFY <local> [cloud_config_service_ec270.create] Task started 'script_runner.tasks.run'
+2015-09-15 13:09:04 LOG <local> [cloud_config_service_ec270.create] INFO: Executing: /tmp/tmpdFgA6_-create.sh
+2015-09-15 13:09:04 LOG <local> [cloud_config_service_ec270.create] INFO: Creating directory /tmp/cloud_config_service
+2015-09-15 13:09:04 LOG <local> [cloud_config_service_ec270.create] INFO: Installing gunicorn
+2015-09-15 13:09:04 LOG <local> [cloud_config_service_ec270.create] INFO: Installing pyyaml
+2015-09-15 13:09:05 LOG <local> [cloud_config_service_ec270.create] INFO: Installing cloud-config-service
+2015-09-15 13:09:07 LOG <local> [cloud_config_service_ec270.create] INFO: Execution done (return_code=0): /tmp/tmpdFgA6_-create.sh
+2015-09-15 13:09:07 CFY <local> [cloud_config_service_ec270.create] Task succeeded 'script_runner.tasks.run'
+2015-09-15 13:09:07 CFY <local> [cloud_config_service_ec270] Configuring node
+2015-09-15 13:09:07 CFY <local> [cloud_config_service_ec270.configure] Sending task 'script_runner.tasks.run'
+2015-09-15 13:09:07 CFY <local> [cloud_config_service_ec270.configure] Task started 'script_runner.tasks.run'
+2015-09-15 13:09:08 LOG <local> [cloud_config_service_ec270.configure] INFO: Downloading cloud configuration file
+2015-09-15 13:09:08 CFY <local> [cloud_config_service_ec270.configure] Task succeeded 'script_runner.tasks.run'
+2015-09-15 13:09:08 CFY <local> [cloud_config_service_ec270] Starting node
+2015-09-15 13:09:08 CFY <local> [cloud_config_service_ec270.start] Sending task 'script_runner.tasks.run'
+2015-09-15 13:09:08 CFY <local> [cloud_config_service_ec270.start] Task started 'script_runner.tasks.run'
+2015-09-15 13:09:08 LOG <local> [cloud_config_service_ec270.start] INFO: Executing: /tmp/tmpc2j4KN-start.sh
+2015-09-15 13:09:09 LOG <local> [cloud_config_service_ec270.start] INFO: Starting cloudify-cloud-config-service with command: gunicorn --workers=5 --pid=/tmp/cloud_config_service/gunicorn.pid --log-level=INFO --log-file=/tmp/cloud_config_service/gunicorn.log --bind 0.0.0.0:8180 --daemon cloud_config_service.rest.service:app
+2015-09-15 13:09:09 LOG <local> [cloud_config_service_ec270.start] INFO: Running Cloud-Config-Service liveness detection on port 8180
+2015-09-15 13:09:09 LOG <local> [cloud_config_service_ec270.start] INFO: [GET] http://localhost:8180/status 200
+2015-09-15 13:09:10 LOG <local> [cloud_config_service_ec270.start] INFO: Execution done (return_code=0): /tmp/tmpc2j4KN-start.sh
+2015-09-15 13:09:10 CFY <local> [cloud_config_service_ec270.start] Task succeeded 'script_runner.tasks.run'
+2015-09-15 13:09:10 CFY <local> 'install' workflow execution succeeded
 ```
 
 This command will install all the application components on you local machine.
