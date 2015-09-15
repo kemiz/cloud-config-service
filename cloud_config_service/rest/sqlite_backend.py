@@ -37,9 +37,12 @@ class RestBackend(object):
 
     def _load_clouds(self, cloud_config):
         clouds = yaml_cloud_config_loader.load(cloud_config)
-        for cloud in clouds:
-            print clouds[cloud]
-            self.storage.add_cloud(clouds[cloud])
+        for cloud in clouds.keys():
+            for config_property in clouds[cloud]:
+                if config_property == 'type':
+                    print 'type: ' + clouds[cloud][config_property]
+                    self.storage.add_cloud(clouds[cloud], provider=clouds[cloud][config_property])
+                    return
 
     def list_clouds(self):
         print('Getting all clouds')

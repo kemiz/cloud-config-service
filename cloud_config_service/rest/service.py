@@ -1,5 +1,6 @@
 import os
 import httplib
+from cloudify.decorators import operation
 import yaml
 
 from flask import Flask
@@ -7,7 +8,7 @@ from flask import jsonify
 from flask_restful import Api
 
 from cloud_config_service import exceptions
-from cloud_config_service.rest import backend as rest_backend
+from cloud_config_service.rest import es_backend as rest_backend
 from cloud_config_service.rest import config
 
 
@@ -55,8 +56,8 @@ def handle_errors(error):
     return response
 
 
-@app.route('/clouds', methods=['GET'])
-def get_clouds():
+@app.route('/clouds/', methods=['GET'])
+def get_all_clouds():
 
     """
     List cloud configurations
@@ -66,7 +67,18 @@ def get_clouds():
     return jsonify(clouds=clouds), httplib.OK
 
 
-@app.route('/clouds/<cloud_id>', methods=['DELETE'])
+@app.route('/clouds/<provider>', methods=['GET'])
+def get_clouds_by_provider(provider):
+
+    """
+    List cloud configurations
+    """
+    print('Getting all cloud configurations...')
+    clouds = backend.list_clouds(provider)
+    return jsonify(clouds=clouds), httplib.OK
+
+
+@app.route('/cloud/<cloud_id>', methods=['DELETE'])
 def delete_cloud(cloud_id):
 
     """
@@ -77,7 +89,7 @@ def delete_cloud(cloud_id):
     return jsonify(host), httplib.OK
 
 
-@app.route('/clouds/<cloud_id>', methods=['GET'])
+@app.route('/cloud_by_id/<cloud_id>', methods=['GET'])
 def get_cloud(cloud_id):
 
     """
@@ -86,6 +98,11 @@ def get_cloud(cloud_id):
 
     cloud = backend.get_cloud(cloud_id)
     return jsonify(cloud), httplib.OK
+
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    return jsonify(backend.get_status()), httplib.OK
 
 
 if __name__ == '__main__':

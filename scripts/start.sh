@@ -10,11 +10,11 @@ function get_response_code() {
     wget_cmd=$(which wget)
 
     if [[ ! -z ${curl_cmd} ]]; then
-        response_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${port}/clouds)
+        response_code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:${port}/status)
     elif [[ ! -z ${wget_cmd} ]]; then
-        response_code=$(wget --spider -S "http://localhost:${port}/clouds" 2>&1 | grep "HTTP/" | awk '{print $2}' | tail -1)
+        response_code=$(wget --spider -S "http://localhost:${port}/status" 2>&1 | grep "HTTP/" | awk '{print $2}' | tail -1)
     else
-        ctx logger error "Failed to retrieve response code from http://localhost:${port}/clouds --> Neither 'cURL' nor 'wget' were found
+        ctx logger error "Failed to retrieve response code from http://localhost:${port}/status --> Neither 'cURL' nor 'wget' were found
          on the system"
         exit 1;
     fi
@@ -38,7 +38,7 @@ function wait_for_server() {
     for i in $(seq 1 5)
     do
         response_code=$(get_response_code ${port})
-        ctx logger info "[GET] http://localhost:${port}/clouds ${response_code}"
+        ctx logger info "[GET] http://localhost:${port}/status ${response_code}"
         if [ ${response_code} -eq 200 ] ; then
             started=true
             break
@@ -60,7 +60,7 @@ port=$(ctx node properties port)
 
 cd ${work_directory}
 export CLOUD_CONFIG_SERVICE_CONFIG_PATH=${config_path}
-command="gunicorn --workers=1 --pid=${work_directory}/gunicorn.pid --log-level=INFO --log-file=${work_directory}/gunicorn.log --bind 0.0.0.0:${port} --daemon cloud_config_service.rest.service:app"
+command="gunicorn --workers=5 --pid=${work_directory}/gunicorn.pid --log-level=INFO --log-file=${work_directory}/gunicorn.log --bind 0.0.0.0:${port} --daemon cloud_config_service.rest.service:app"
 ctx logger info "Starting cloudify-cloud-config-service with command: ${command}"
 ${command}
 

@@ -27,7 +27,7 @@ class Storage(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def get_clouds(self, **filters):
+    def get_clouds(self, provider, **filters):
 
         """
         Retrieves hosts in the database that fit the given filters.
@@ -42,7 +42,7 @@ class Storage(object):
         """
 
     @abc.abstractmethod
-    def add_cloud(self, cloud):
+    def add_cloud(self, cloud, provider):
 
         """
         Add a host to the database.
@@ -75,7 +75,7 @@ class Storage(object):
         """
 
     @abc.abstractmethod
-    def update_cloud(self, global_id, new_values, old_values=None):
+    def update_cloud(self, global_id, new_values, provider, old_values=None):
 
         """
         Update a host with new values.

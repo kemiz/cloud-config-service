@@ -26,7 +26,6 @@ from cloud_config_service import exceptions
 
 
 class SQLiteSchema(object):
-
     Column = namedtuple('Column', 'name type')
 
     def __init__(self, primary_key_name, primary_key_type):
@@ -58,7 +57,6 @@ class SQLiteSchema(object):
 
 
 def blocking(func):
-
     @wraps(func)
     def wrapper(*args, **kwargs):
         while True:
@@ -73,21 +71,18 @@ def blocking(func):
 
 
 class SQLiteStorage(Storage):
-
     """
     Storage wrapper for SQLite DB implementing AbstractStorage interface.
 
     """
-
-    TABLE_NAME = 'clouds'
 
     def __init__(self, storage=None):
         if storage is None:
             storage = 'cloud-config-data.sqlite'
         print('Innit new SQLiteStorage with storage: {0}'.format(storage))
         self._filename = os.path.abspath(storage)
-        self._schema = _create_schema()
-        self._create_table()
+        self._create_table('aws')
+        self._create_table('openstack')
 
     @contextmanager
     def connect(self, exclusive=False):
@@ -100,33 +95,34 @@ class SQLiteStorage(Storage):
             yield conn.cursor()
 
     @blocking
-    def get_clouds(self, **filters):
+    def get_clouds(self, provider, **filters):
         with self.connect() as cursor:
             if not filters:
-                cursor.execute('SELECT * FROM {0}'.format(self.TABLE_NAME))
+                cursor.execute('SELECT * FROM {0}'.format(provider))
             else:
                 sql_cond = _construct_and_query_sql(filters)
                 values = _construct_values_tuple(filters)
                 cursor.execute('SELECT * FROM {0} WHERE {1}'
-                               .format(self.TABLE_NAME, sql_cond),
+                               .format(provider, sql_cond),
                                values)
             return list(cursor.fetchall())
 
-    def add_cloud(self, cloud):
+    def add_cloud(self, cloud, provider):
         with self.connect() as cursor:
             column_names = cloud.keys()
-            print column_names
+            print(column_names)
             values = _construct_values_tuple(cloud)
-            values_wild = self._schema.wilds
+            values_wild = get_schema(provider).wilds
             sql = 'INSERT INTO {0} ({1}) VALUES({2})'.format(
-                self.TABLE_NAME,
+                provider,
                 ', '.join(column_names),
                 values_wild)
+            print('Adding cloud config: {0}'.format(sql))
             cursor.execute(sql, values)
-            cloud[self._schema.primary_key_name] = cursor.lastrowid
+            cloud[get_schema(provider).primary_key_name] = cursor.lastrowid
 
     @blocking
-    def update_cloud(self, global_id, new_values, old_values=None):
+    def update_cloud(self, global_id, new_values, provider, old_values=None):
         if old_values is None:
             old_values = {}
         with self.connect(exclusive=True) as cursor:
@@ -136,36 +132,68 @@ class SQLiteStorage(Storage):
             new = _construct_values_tuple(new_values)
             old = _construct_values_tuple(old_values)
             cursor.execute('UPDATE {0} SET {1} WHERE {2}'.format(
-                self.TABLE_NAME, sql_set, sql_con), new + old)
+                provider, sql_set, sql_con), new + old)
             changed = cursor.connection.total_changes == 1
             cursor.execute('SELECT * FROM {0} WHERE {1}=?'
-                           .format(self.TABLE_NAME,
-                                   self._schema.primary_key_name),
+                           .format(provider,
+                                   get_schema(provider).primary_key_name),
                            (global_id, ))
             return cursor.fetchone(), changed
 
-    def _create_table(self):
+    def _create_table(self, provider):
         with self.connect() as cursor:
             sql = 'CREATE TABLE IF NOT EXISTS {0} {1}'.format(
-                self.TABLE_NAME, self._schema.create())
-            print('Creating table...')
+                provider, get_schema(provider).create())
+            print('Creating table: {0}'.format(sql))
             cursor.execute(sql)
 
 
-def _create_schema():
+def get_schema(provider):
+    print provider
+    if provider == 'aws':
+        return _get_aws_schema()
+    elif provider == 'openstack':
+        return _get_openstack_schema()
+    else:
+        raise exceptions.StorageException('Not a supported schema: {0}'.format(provider))
+
+
+def _get_aws_schema():
     schema = SQLiteSchema(
         primary_key_name='global_id',
         primary_key_type='integer'
     )
     schema.add_column('name', 'text')
     schema.add_column('type', 'text')
+    schema.add_column('aws_access_key_id', 'text')
+    schema.add_column('aws_secret_access_key', 'text')
+    schema.add_column('ec2_region_name', 'text')
+    schema.add_column('use_external_resource', 'text')
+    schema.add_column('resource_id', 'text')
     schema.add_column('parameters', 'text')
     print('Creating schema: {0}'.format(schema))
     return schema
 
 
-def _dict_row_factory(cursor, row):
+def _get_openstack_schema():
+    schema = SQLiteSchema(
+        primary_key_name='global_id',
+        primary_key_type='integer'
+    )
+    schema.add_column('name', 'text')
+    schema.add_column('type', 'text')
+    schema.add_column('username', 'text')
+    schema.add_column('password', 'text')
+    schema.add_column('tenant_name', 'text')
+    schema.add_column('auth_url', 'text')
+    schema.add_column('region', 'text')
+    schema.add_column('nova_url', 'text')
+    schema.add_column('neutron_url', 'text')
+    print('Creating schema: {0}'.format(schema))
+    return schema
 
+
+def _dict_row_factory(cursor, row):
     def _normalize_port(value):
         try:
             return int(value)

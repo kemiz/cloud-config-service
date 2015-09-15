@@ -30,6 +30,7 @@ setup(
         'PyYAML',
         'filelock==0.2.0',
         'testtools',
-        'cloudify==3.2.1'
+        'cloudify==3.2.1',
+        'elasticsearch>=1.0.0,<2.0.0'
     ]
 )

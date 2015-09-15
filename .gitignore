@@ -1,3 +1,9 @@
 
 *.iml
 blueprints/local-blueprint/local-storage
+
+blueprints/kemiz_cloud_config.yaml
+
+blueprints/local-blueprint/run-local.sh
+
+cloud_config_service/rest/run.sh
