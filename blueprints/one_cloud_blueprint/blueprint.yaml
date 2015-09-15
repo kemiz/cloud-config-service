@@ -24,10 +24,9 @@ node_templates:
   host:
     type: cloudify.nodes.AbstractServer
     properties:
-      install_agent: false
-      ip: localhost
+      iaas_provider: 'ec2_giga'
 
-  host_pool_service:
+  config_service:
     type: cloudify.nodes.CloudConfigService
     properties:
       working_directory: { get_input: working_directory }
