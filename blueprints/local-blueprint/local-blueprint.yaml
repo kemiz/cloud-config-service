@@ -10,7 +10,7 @@ inputs:
   cloud_config:
     type: string
     description: relative path to a cloud configuration file
-    default: /Users/kemi/Documents/Development/cloud-config-service/blueprints/kemiz_cloud_config.yaml
+    default: test_cloud_config.yaml
 
   working_directory:
     type: string

@@ -67,18 +67,18 @@ def get_all_clouds():
     return jsonify(clouds=clouds), httplib.OK
 
 
-@app.route('/clouds/<provider>', methods=['GET'])
+@app.route('/clouds/get_by_provider/<provider>', methods=['GET'])
 def get_clouds_by_provider(provider):
 
     """
     List cloud configurations
     """
     print('Getting all cloud configurations...')
-    clouds = backend.list_clouds(provider)
+    clouds = backend.get_clouds_by_provider(provider)
     return jsonify(clouds=clouds), httplib.OK
 
 
-@app.route('/cloud/<cloud_id>', methods=['DELETE'])
+@app.route('/cloud/delete/<cloud_id>', methods=['DELETE'])
 def delete_cloud(cloud_id):
 
     """
@@ -89,7 +89,18 @@ def delete_cloud(cloud_id):
     return jsonify(host), httplib.OK
 
 
-@app.route('/cloud_by_id/<cloud_id>', methods=['GET'])
+@app.route('/cloud/add/<cloud>', methods=['GET'])
+def add_cloud(cloud):
+
+    """
+    Get the cloud configuration with the given cloud_id
+    """
+
+    cloud = backend.add_cloud(cloud)
+    return jsonify(cloud), httplib.OK
+
+
+@app.route('/cloud/get_by_id/<cloud_id>', methods=['GET'])
 def get_cloud(cloud_id):
 
     """
