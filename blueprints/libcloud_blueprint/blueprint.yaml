@@ -1,0 +1,86 @@
+tosca_definitions_version: cloudify_dsl_1_1
+
+imports:
+  - http://www.getcloudify.org/spec/cloudify/3.2.1/types.yaml
+  - https://raw.githubusercontent.com/kemiz/cloud-config-service/master/cloud-config-service-types.yaml
+  - https://raw.githubusercontent.com/kemiz/cloudify-elasticsearch-plugin/3.2.1/plugin.yaml
+  - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
+  - https://raw.githubusercontent.com/kemiz/cloudify-libcloud-plugin/master/plugin.yaml
+
+inputs:
+
+  cloud_config:
+    type: string
+    description: relative path to a cloud configuration file
+    default: test_cloud_config.yaml
+
+  working_directory:
+    type: string
+    description: |
+      absolute path to a directory where the service will be
+      running from
+    default: "/tmp/cloud_config_service"
+
+  provider:
+    default: ''
+
+  provider_config:
+    default: ''
+    #  # AWS EC2 parameters
+    #  key_name: ''
+    #  key_path: ''
+    #  name: 'my_ec2'
+    #  type: 'aws'
+    #  aws_access_key_id: ''
+    #  aws_secret_access_key: ''
+    #  ec2_region_name: ''
+    #  use_external_resource:
+    #  resource_id: ''
+    #  parameters: {}
+    #  # HP Cloud OpenStack parameters
+    #  name: 'my_openstack'
+    #  type: 'openstack'
+    #  key_name: ''
+    #  key_path: ''
+    #  username: ''
+    #  password: ''
+    #  tenant_name: ''
+    #  auth_url: ''
+    #  region: ''
+    #  nova_url: ''
+    #  neutron_url: ''
+
+node_templates:
+
+  config_service_host:
+    type: cloudify.nodes.AbstractServer
+    properties:
+      provider: { get_input: provider }
+      provider_config: { get_input: provider_config }
+
+  config_service:
+    type: cloudify.nodes.CloudConfigService
+    properties:
+      working_directory: { get_input: working_directory }
+      cloud_config: { get_input: cloud_config }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: config_service_host
+      - type: cloudify.relationships.connected_to
+        target: elasticsearch
+
+  elasticsearch:
+    type: elasticsearch.nodes.Elasticsearch
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: config_service_host
+
+  vm_templates:
+    type: vm_templates
+
+
+outputs:
+  endpoint:
+    description: Cloud Config Service endpoint
+    value:
+      ip_address: { get_attribute: [ config_service_host, ip ] }
