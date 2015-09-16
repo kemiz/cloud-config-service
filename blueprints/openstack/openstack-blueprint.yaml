@@ -1,0 +1,70 @@
+tosca_definitions_version: cloudify_dsl_1_1
+
+imports:
+  - http://www.getcloudify.org/spec/cloudify/3.2/types.yaml
+  - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
+  - http://www.getcloudify.org/spec/diamond-plugin/1.2/plugin.yaml
+  - https://raw.githubusercontent.com/kemiz/monitored-server-cfy3/master/types/monitored-server-types.yaml
+  - https://raw.githubusercontent.com/kemiz/cloud-config-service/master/cloud-config-service-types.yaml
+  - https://raw.githubusercontent.com/kemiz/cloudify-elasticsearch-plugin/3.2/plugin.yaml
+  - https://raw.githubusercontent.com/kemiz/cloudify-package-installer-plugin/master/plugin.yaml
+
+inputs:
+
+  image:
+    description: >
+      Image to be used when launching agent VM's
+    default: '55aa4df7-1996-4507-955f-30f72d970836'
+
+  flavor:
+    description: >
+      Flavor of the agent VM's
+    default: 102
+
+  agent_user:
+    description: >
+      User for connecting to agent VM's
+    default: 'ubuntu'
+
+  cloud_config:
+    type: string
+    description: relative path to a cloud configuration file
+    default: test_cloud_config.yaml
+
+  working_directory:
+    type: string
+    description: |
+      absolute path to a directory where the service will be
+      running from
+    default: "/tmp/cloud_config_service"
+
+node_templates:
+
+  host:
+    type: monitoredhosts.openstack.nodes.MonitoredServer
+
+  config_service:
+    type: cloudify.nodes.CloudConfigService
+    properties:
+      working_directory: { get_input: working_directory }
+      cloud_config: { get_input: cloud_config }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: host
+      - type: cloudify.relationships.connected_to
+        target: elasticsearch
+
+  elasticsearch:
+    type: elasticsearch.nodes.Elasticsearch
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: host
+
+  tomcat_host:
+    type: cloudify.nodes.AbstractServer
+    properties:
+      service_url: { get_attribute: [ host, ip ] }
+      provider: { get_input: provider }
+    relationships:
+      - type: cloudify.relationships.contained_in
+        target: host

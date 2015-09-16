@@ -51,7 +51,7 @@ cfy local execute -w install
 
 This command will install all the application components on you local machine.
 (It's all installed under the `tmp` directory by default)<br>
-Once its done, you should be able to execute a GET request to [http://localhost:8180/clouds](http://localhost:8180/clouds) and see the result.
+Once its done, you should be able to execute a GET request to [http://localhost:8180/status](http://localhost:8180/status) and see the result.
 **Note that the result should be an array of cloud configurations as in the 'test_cloud_config.yaml'**
 <br>
 
