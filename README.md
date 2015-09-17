@@ -8,7 +8,7 @@ The service is a python web service based on [flask-restful]
  be consumed by clients who are interested in cloud configurations from a db of
  pre-existing configurations.
 
-### [GET] /clouds/get_by_provider/<provider_id>
+#### [GET] /clouds/get_by_provider/<provider_id>
 
 Queries the service for all cloud configurations for a specific provider.
 
@@ -57,7 +57,7 @@ Queries the service for all cloud configurations for a specific provider.
 }
 ```
 
-### [GET] /cloud/get_by_id/<cloud_id>
+#### [GET] /cloud/get_by_id/<cloud_id>
 
 Gets the configuration for a specific cloud. The cloud id / name must be passed.
 
@@ -76,13 +76,13 @@ Gets the configuration for a specific cloud. The cloud id / name must be passed.
 }
 ```
 
-### [POST] /clouds/{cloud}
+#### [POST] /clouds/{cloud}
 
 Adds a cloud.
 
 **Not Implemented**
 
-### [DELETE] /clouds/{cloud}
+#### [DELETE] /clouds/{cloud}
 
 Delete a cloud by its id.
 
