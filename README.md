@@ -94,7 +94,7 @@ There are currently 2 types of installations, local and cloud.<br>
 The local installation uses 'cfy local' to execute a workflow install the service.
 The cloud blueprint uses the Cloudify libcloud plugin to enable deployment on any supported cloud provider.
 
-### Local Deployment
+## Local Deployment
 
 [More here](https://github.com/kemiz/cloud-config-service/tree/master/blueprints/local-blueprint)
 
@@ -108,7 +108,7 @@ Run the `install` workflow: <br>
 
 `cfy local execute -w install`
 
-### Cloud Deployment
+## Cloud Deployment
 
 [More here](https://github.com/kemiz/cloud-config-service/tree/master/blueprints/one_cloud_blueprint)
 
