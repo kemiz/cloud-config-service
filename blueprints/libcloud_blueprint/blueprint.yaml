@@ -53,7 +53,7 @@ inputs:
 node_templates:
 
   config_service_host:
-    type: cloudify.nodes.AbstractServer
+    type: cloudify.nodes.libcloud.Compute
     properties:
       provider: { get_input: provider }
       provider_config: { get_input: provider_config }
