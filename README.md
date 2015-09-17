@@ -88,6 +88,8 @@ Delete a cloud by its id.
 
 **Not Implemented**
 
+----
+
 ## Installation / Deployment
 
 There are currently 2 types of installations, local and cloud.<br>
