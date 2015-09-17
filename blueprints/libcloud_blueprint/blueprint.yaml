@@ -55,8 +55,9 @@ node_templates:
   config_service_host:
     type: cloudify.nodes.libcloud.Compute
     properties:
-      provider: { get_input: provider }
-      provider_config: { get_input: provider_config }
+      provider_config:
+        name: { get_input: provider }
+        configuration: { get_input: provider_config }
 
   config_service:
     type: cloudify.nodes.CloudConfigService
